@@ -1,0 +1,56 @@
+/* 973. K Closest Points to Origin */
+
+class Solution {
+    class Pair{
+        double dis;
+        int ind;
+
+        public Pair(double dis, int ind){
+            this.dis= dis;
+            this.ind= ind;
+        }
+    }
+
+    Comparator<Pair> compact= new Comparator<Pair>(){
+        public int compare(Pair a, Pair b){
+            return Double.compare(a.dis, b.dis);
+        }
+    };
+
+    public int[][] kClosest(int[][] points, int k) {
+        /** 
+        Array the points 
+        k closest points to origin 
+        sorting will done one the basis of distance 
+
+        pq<distance, index>
+        */
+
+        PriorityQueue<Pair> pq= new PriorityQueue(compact);
+
+        for(int i=0;i<points.length;i++){
+            int a= points[i][0];
+            int b= points[i][1];
+
+            double dis= Math.sqrt( a*a + b*b);
+
+            pq.add(new Pair(dis, i));
+        }
+
+
+        int[][] ans= new int[k][2];
+        int i=0;
+        while(k!=0){
+
+            int ind= pq.poll().ind;
+
+            ans[i][0]= points[ind][0];
+            ans[i][1]= points[ind][1];
+
+            k--;
+            i++;
+        }
+
+        return ans;
+    }
+}
